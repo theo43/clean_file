@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 12 17:30:06 2017
-@author: Theo PAINVIN (theo.painvin@areva.com)
+@author: theo43@github
 """
 
 from sys import argv
