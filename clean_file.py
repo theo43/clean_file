@@ -25,7 +25,8 @@ def clean_tabs(line, line_number, counter):
            - counter (Counter): updated counter
 
        Example:
-           >>> clean_tabs("\t\ta = 42\t\n", 9, counter = Counter({'tab': 1}))
+           >>> cnt = Counter({'line': 1, 'space':0})
+           >>> clean_tabs("\t\ta = 42\t\n", 9, counter=cnt)
            ('        a = 42    \n', Counter({'tab': 4}))
     
     """
