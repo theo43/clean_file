@@ -72,7 +72,7 @@ def clean_end_of_line_spaces(line, line_number, counter, regex=r"[ ]+$"):
         counter["line"] += 1
         spaces_to_delete = len(detected.group())
         counter["space"] += spaces_to_delete
-        if spaces_to_delete == 1:
+        if spaces_to_delete:
             print("Line {}: {} deleted end-of-line space"\
                   .format(line_number, spaces_to_delete))
         else:
@@ -109,5 +109,19 @@ if __name__ == '__main__':
     print("Number of replaced tabs: {}".format(CNT["tab"]))
     print("Number of deleted spaces: {}".format(CNT["space"]))
     print("Number of concerned lines: {}\n{}".format(CNT["line"], "*"*60))
+
+    AGAIN = True
+    print("Replace {} with {}? (y/n)".format(FILE_NAME, NEW_NAME))
+    while AGAIN:
+        CHOICE = input(">>> ")
+        if CHOICE == 'y':
+            print("{} is replaced with {}".format(FILE_NAME, NEW_NAME))
+            AGAIN = False
+        else:
+            if CHOICE == 'n':
+                print("No replacement")
+                AGAIN = False
+            else:
+                print("Wrong input: \"y\" or \"n\". Try again")
 
     FILE_OUT.close()
