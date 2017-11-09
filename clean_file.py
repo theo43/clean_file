@@ -13,13 +13,13 @@ from collections import Counter
 def clean_tabs(line, line_number, counter):
     """Clean the tabulation(s) detected in a string and replace them with
        four spaces
-       
+
        Arguments:
            - line (string): content of the line to be treated
            - line_number (int): line number in the file
            - counter (Counter): counts concerned lines and deleted spaces in
              the file
-       
+
        Returns:
            - line (string): line with tab(s) replaced by four spaces
            - counter (Counter): updated counter
@@ -28,9 +28,9 @@ def clean_tabs(line, line_number, counter):
            >>> cnt = Counter({'line': 1, 'space':0})
            >>> clean_tabs("\t\ta = 42\t\n", 9, counter=cnt)
            ('        a = 42    \n', Counter({'tab': 4}))
-    
+
     """
-    
+
     list_tabs = findall(r"\t", line)
     if len(list_tabs) != 0:
         line = sub(r"\t", " "*4, line)
@@ -49,21 +49,21 @@ def clean_tabs(line, line_number, counter):
 
 def clean_end_of_line_spaces(line, line_number, counter, regex=r"[ ]+$"):
     """Search useless spaces at the end of a string and delete them
-       
+
        Arguments:
            - line (string): content of the line to be treated
-           - counter (Counter): counts concerned lines and deleted spaces 
-       
+           - counter (Counter): counts concerned lines and deleted spaces
+
        Returns:
            - line (string): line without spaces in the end of the line
            - counter (Counter): updated counter
-           
+
        Example:
            >>> line = "    def func(beta=0.97):     "
            >>> cnt = Counter({'line': 1, 'space':0})
            >>> clean_end_of_line_spaces(line, 77, counter=cnt)
            ('    def func(beta=0.97):', Counter({'space': 5, 'line': 2}))
-    
+
     """
 
     detected = search(regex, line)
@@ -79,35 +79,35 @@ def clean_end_of_line_spaces(line, line_number, counter, regex=r"[ ]+$"):
             print("Line {}: {} deleted end-of-line spaces"\
                   .format(line_number, spaces_to_delete))
 
-    # Delete the useless spaces    
+    # Delete the useless spaces
     line = sub(regex, "", line)
-    
+
     return line, counter
 
 
 if __name__ == '__main__':
 
     # Initialize the counter
-    counter = Counter()
+    CNT = Counter()
 
-    file_name = argv[1]
+    FILE_NAME = argv[1]
 
-    print("Read file: {}".format(file_name))
-    with open(file_name, "r") as fi:
-        lines = fi.readlines()
+    print("Read file: {}".format(FILE_NAME))
+    with open(FILE_NAME, "r") as fi:
+        LINES = fi.readlines()
 
-    new_name = split("\.py", file_name)[0] + "_clean.py"
-    print("\nCreation of file: {}\n".format(new_name))
-    fo = open(new_name, "w")
+    NEW_NAME = split(r"\.py", FILE_NAME)[0] + "_clean.py"
+    print("\nCreation of file: {}\n".format(NEW_NAME))
+    FILE_OUT = open(NEW_NAME, "w")
 
-    for i, line in enumerate(lines):
-        line, counter = clean_tabs(line, i, counter)
-        line, counter = clean_end_of_line_spaces(line, i, counter)
-        fo.write(line)
+    for i, line in enumerate(LINES):
+        line, CNT = clean_tabs(line, i, CNT)
+        line, CNT = clean_end_of_line_spaces(line, i, CNT)
+        FILE_OUT.write(line)
 
     print("\n" + "*"*60)
-    print("Number of replaced tabs: {}".format(counter["tab"]))
-    print("Number of deleted spaces: {}".format(counter["space"]))
-    print("Number of concerned lines: {}\n{}".format(counter["line"], "*"*60))
+    print("Number of replaced tabs: {}".format(CNT["tab"]))
+    print("Number of deleted spaces: {}".format(CNT["space"]))
+    print("Number of concerned lines: {}\n{}".format(CNT["line"], "*"*60))
 
-    fo.close()
+    FILE_OUT.close()
