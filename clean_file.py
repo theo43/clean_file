@@ -93,11 +93,27 @@ if __name__ == '__main__':
     FILE_NAME = argv[1]
 
     print("Read file: {}".format(FILE_NAME))
-    with open(FILE_NAME, "r") as fi:
-        LINES = fi.readlines()
+    FILE_IN = open(FILE_NAME, "r")
+    LINES = FILE_IN.readlines()
+    FILE_IN.close()
 
-    NEW_NAME = split(r"\.py", FILE_NAME)[0] + "_clean.py"
-    print("\nCreation of file: {}\n".format(NEW_NAME))
+    print("Replace the original file with the clean one? (y/n)")
+    AGAIN = True
+    while AGAIN:
+        CHOICE = input(">>> ")
+        if CHOICE == 'y':
+            NEW_NAME = FILE_NAME
+            print("Clean the file: {}".format(FILE_NAME))
+            AGAIN = False
+        else:
+            if CHOICE == 'n':
+                print("No replacement")
+                NEW_NAME = split(r"\.py", FILE_NAME)[0] + "_clean.py"
+                print("\nCreation of file: {}\n".format(NEW_NAME))
+                AGAIN = False
+            else:
+                print("Wrong input: \"y\" or \"n\" only! Try again")
+
     FILE_OUT = open(NEW_NAME, "w")
 
     for i, line in enumerate(LINES):
@@ -109,19 +125,5 @@ if __name__ == '__main__':
     print("Number of replaced tabs: {}".format(CNT["tab"]))
     print("Number of deleted spaces: {}".format(CNT["space"]))
     print("Number of concerned lines: {}\n{}".format(CNT["line"], "*"*60))
-
-    AGAIN = True
-    print("Replace {} with {}? (y/n)".format(FILE_NAME, NEW_NAME))
-    while AGAIN:
-        CHOICE = input(">>> ")
-        if CHOICE == 'y':
-            print("{} is replaced with {}".format(FILE_NAME, NEW_NAME))
-            AGAIN = False
-        else:
-            if CHOICE == 'n':
-                print("No replacement")
-                AGAIN = False
-            else:
-                print("Wrong input: \"y\" or \"n\". Try again")
 
     FILE_OUT.close()
