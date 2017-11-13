@@ -90,40 +90,42 @@ if __name__ == '__main__':
     # Initialize the counter
     CNT = Counter()
 
-    FILE_NAME = argv[1]
+    FILE_NAMES = argv[1:]
 
-    print("Read file: {}".format(FILE_NAME))
-    FILE_IN = open(FILE_NAME, "r")
-    LINES = FILE_IN.readlines()
-    FILE_IN.close()
+    for FILE_NAME in FILE_NAMES:
 
-    print("Replace the original file with the clean one? (y/n)")
-    AGAIN = True
-    while AGAIN:
-        CHOICE = input(">>> ")
-        if CHOICE == 'y':
-            NEW_NAME = FILE_NAME
-            print("Clean the file: {}".format(FILE_NAME))
-            AGAIN = False
-        else:
-            if CHOICE == 'n':
-                print("No replacement")
-                NEW_NAME = split(r"\.py", FILE_NAME)[0] + "_clean.py"
-                print("\nCreation of file: {}\n".format(NEW_NAME))
+        print("Read file: {}".format(FILE_NAME))
+        FILE_IN = open(FILE_NAME, "r")
+        LINES = FILE_IN.readlines()
+        FILE_IN.close()
+
+        print("Replace the original file with the clean one? (y/n)")
+        AGAIN = True
+        while AGAIN:
+            CHOICE = input(">>> ")
+            if CHOICE == 'y':
+                NEW_NAME = FILE_NAME
+                print("Clean the file: {}".format(FILE_NAME))
                 AGAIN = False
             else:
-                print("Wrong input: \"y\" or \"n\" only! Try again")
+                if CHOICE == 'n':
+                    print("No replacement")
+                    NEW_NAME = split(r"\.py", FILE_NAME)[0] + "_clean.py"
+                    print("\nCreation of file: {}\n".format(NEW_NAME))
+                    AGAIN = False
+                else:
+                    print("Wrong input: \"y\" or \"n\" only! Try again")
 
-    FILE_OUT = open(NEW_NAME, "w")
+        FILE_OUT = open(NEW_NAME, "w")
 
-    for i, line in enumerate(LINES):
-        line, CNT = clean_tabs(line, i, CNT)
-        line, CNT = clean_end_of_line_spaces(line, i, CNT)
-        FILE_OUT.write(line)
+        for i, line in enumerate(LINES):
+            line, CNT = clean_tabs(line, i, CNT)
+            line, CNT = clean_end_of_line_spaces(line, i, CNT)
+            FILE_OUT.write(line)
 
-    print("\n" + "*"*60)
-    print("Number of replaced tabs: {}".format(CNT["tab"]))
-    print("Number of deleted spaces: {}".format(CNT["space"]))
-    print("Number of concerned lines: {}\n{}".format(CNT["line"], "*"*60))
+        print("\n" + "*"*60)
+        print("Number of replaced tabs: {}".format(CNT["tab"]))
+        print("Number of deleted spaces: {}".format(CNT["space"]))
+        print("Number of concerned lines: {}\n{}".format(CNT["line"], "*"*60))
 
-    FILE_OUT.close()
+        FILE_OUT.close()
