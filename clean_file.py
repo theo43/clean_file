@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Oct 12 17:30:06 2017
+Created on Thu Oct 12 2017
 @author: theo43@github
 """
 
@@ -11,23 +11,31 @@ from collections import Counter
 
 
 def clean_tabs(line, line_number, counter):
-    """Clean the tabulation(s) detected in a string and replace them with
-       four spaces
+    """
+    Clean the tabulation(s) detected in a string and replace them with
+    four spaces
 
-       Arguments:
-           - line (string): content of the line to be treated
-           - line_number (int): line number in the file
-           - counter (Counter): counts concerned lines and deleted spaces in
-             the file
+    Arguments:
+        `line` (string):
+            content of the line to be treated
 
-       Returns:
-           - line (string): line with tab(s) replaced by four spaces
-           - counter (Counter): updated counter
+        `line_number` (int):
+            line number in the file
 
-       Example:
-           >>> cnt = Counter({'line': 1, 'space':0})
-           >>> clean_tabs("\t\ta = 42\t\n", 9, counter=cnt)
-           ('        a = 42    \n', Counter({'tab': 4}))
+        `counter` (Counter):
+            counts concerned lines and deleted spaces in the file
+
+    Returns:
+        `line` (string):
+            line with tab(s) replaced by four spaces
+
+        `counter` (Counter):
+            updated counter
+
+    Example:
+        >>> cnt = Counter({'line': 1, 'space':0})
+        >>> clean_tabs("\t\ta = 42\t\n", 9, counter=cnt)
+        ('        a = 42    \n', Counter({'tab': 4}))
 
     """
 
@@ -48,21 +56,28 @@ def clean_tabs(line, line_number, counter):
 
 
 def clean_end_of_line_spaces(line, line_number, counter, regex=r"[ ]+$"):
-    """Search useless spaces at the end of a string and delete them
+    """
+    Search useless spaces at the end of a string and delete them
 
-       Arguments:
-           - line (string): content of the line to be treated
-           - counter (Counter): counts concerned lines and deleted spaces
+    Arguments:
+        `line` (string):
+            content of the line to be treated
 
-       Returns:
-           - line (string): line without spaces in the end of the line
-           - counter (Counter): updated counter
+        `counter` (Counter):
+            counts concerned lines and deleted spaces
 
-       Example:
-           >>> line = "    def func(beta=0.97):     "
-           >>> cnt = Counter({'line': 1, 'space':0})
-           >>> clean_end_of_line_spaces(line, 77, counter=cnt)
-           ('    def func(beta=0.97):', Counter({'space': 5, 'line': 2}))
+    Returns:
+        `line` (string):
+            line without spaces in the end of the line
+
+        `counter` (Counter):
+            updated counter
+
+    Example:
+        >>> line = "    def func(beta=0.97):     "
+        >>> cnt = Counter({'line': 1, 'space':0})
+        >>> clean_end_of_line_spaces(line, 77, counter=cnt)
+        ('    def func(beta=0.97):', Counter({'space': 5, 'line': 2}))
 
     """
 
